@@ -14,7 +14,7 @@ package weekone
  */
 object Exercise2 {
   def main(args: Array[String]) : Unit = {
-
+ 
   }
   
   class Semester (modules: Array[Module]) {
@@ -25,8 +25,22 @@ object Exercise2 {
     
   }
   
-  class Session (startTime: Time, duration: Time, roomNumber: Room ) {
+  class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String) {
     
+    /**
+     * Get the start time of the session.
+     */
+    def getStartTime(): Time = startTime;
+    
+    /**
+     * Get the end time of the modules session.
+     */
+    def getEndTime(): Time = startTime + duration;
+    
+    /**
+     * Returns the String representation of a session.
+     */
+    override def toString(): String = "%s\t%s\t%s\t%s".format(getStartTime, getEndTime, roomNumber, lecturer); 
   }
   
   class Time (hour : Int, minutes: Int) {
@@ -34,9 +48,7 @@ object Exercise2 {
     /**
      * Get the duration of the time in minutes.
      */
-    def duration(): Int = {
-      (hour * 60) + minutes;
-    }
+    def duration(): Int = (hour * 60) + minutes;
     
     /**
      * Get the hours.
@@ -44,9 +56,39 @@ object Exercise2 {
     def getHour(): Int = hour;
     
     /**
+     * Adds a number of Minutes to the time.
+     */
+    private def addMinutes(mins: Int): Time = {
+      val hours = mins / 60;
+      
+      val newHours = hour + hours;
+      
+      val remainderMinutes = mins - (hours * 60);
+      
+      val newMinutes = minutes + remainderMinutes;
+      
+      if (newMinutes > 60) {
+        return addMinutes(newMinutes)
+      } else {
+        if (newMinutes == 60) {
+          return new Time(newHours + 1, 0);
+        } else {
+          return new Time(newHours, newMinutes);
+        }
+      }
+    }
+    
+    /**
      * Get the minutes.
      */
     def getMinute(): Int = minutes
+    
+    /**
+     * Adds two time values together.
+     */
+    def +(operand: Time): Time = {
+      return addMinutes((operand.getHour * 60) + operand.getMinute);
+    }
     
     /**
      * Override the toString method to return the Time in 24 hour format.
@@ -55,14 +97,18 @@ object Exercise2 {
   }
   
   class Room (buildingCode: String, roomNumber: Int) {
+    
     /**
      * Override the toString method to return the Room number as a single value.
      */
     override def toString(): String = "%s%d".format(buildingCode, roomNumber);
   }
   
-  class ModuleCode (level: Int, courseCode: String, moduleNumber: Int, lecturer: String) {
-    
+  class ModuleCode (level: Int, courseCode: String, moduleNumber: Int) {
+    /**
+     * Overrides the toString method to return the ModuleCode in the correct format.
+     */
+    override def toString(): String = "%d%s%03d".format(level, courseCode, moduleNumber);
   }
   
 }
