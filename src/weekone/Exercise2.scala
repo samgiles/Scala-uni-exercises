@@ -13,18 +13,50 @@ package weekone
  * 
  */
 object Exercise2 {
+  
   def main(args: Array[String]) : Unit = {
- 
+    
+    
+    var modules = new Array[Module](1);
+   
+    var sessions = new Array[Session](2);
+    sessions(0) = new Session(new Time(9,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer");
+    sessions(1) = new Session(new Time(10,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer");
+    
+    modules(0) = new Module("Software Engineering Practices", new ModuleCode(5, "CS", 6), sessions);
+    
+    modules.foreach(module => println(module));
   }
   
+  /**
+   * 
+   */
   class Semester (modules: Array[Module]) {
-    
+    override def toString(): String = {
+      var string = "";
+      modules.foreach(m => string = string + m + "\n");
+      string;
+    }
   }
   
-  class Module (moduleCode: ModuleCode, sessions: Array[Session]) {
-    
+  /**
+   * 
+   */
+  class Module (moduleName: String, moduleCode: ModuleCode, sessions: Array[Session]) {
+    override def toString(): String = {
+      val sessionString = {
+        var string = "";
+        sessions.foreach(s => string = string + s + "\n");
+        string;
+      }: String;
+      
+      return "%s\t%s\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n%s".format(moduleName, moduleCode, sessionString);
+    }
   }
   
+  /**
+   * 
+   */
   class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String) {
     
     /**
@@ -43,6 +75,9 @@ object Exercise2 {
     override def toString(): String = "%s\t%s\t%s\t%s".format(getStartTime, getEndTime, roomNumber, lecturer); 
   }
   
+  /**
+   * 
+   */
   class Time (hour : Int, minutes: Int) {
     
     /**
