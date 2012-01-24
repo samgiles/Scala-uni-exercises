@@ -4,8 +4,12 @@ package weekone
  */
 object Exercise1 {
 	def main(args: Array[String]) : Unit = {
+	  println("Function A:");
 	  testFibonacciFunction(fibonacciNumberA);
+	  println("Function B:");
 	  testFibonacciFunction(fibonacciNumberB);
+	  println("Function C:");
+	  testFibonacciFunction(fibonacciNumberC);
 	}
 	
 	/**
@@ -57,8 +61,26 @@ object Exercise1 {
 	  
 	  scala.math.floor(top / bottom); // return the floored result of the formula to correct error.
 	}
-	
-	;
+
+	/**
+	 * Third implementation of the Fibonacci function.
+	 * 
+	 * Uses Computation By rounding where:
+	 * 
+	 * Un = |_(goldenRatio^n / sqrt(5)) + (1 / 2)_|  (Floor)
+	 * 
+	 * @param n The nth number of the Fibonacci sequence.
+	 */
+	def fibonacciNumberC(n: Double) : Double = {
+	  
+	  val goldenRatio = (1 + scala.math.sqrt(5)) / 2;
+	  val root5 = scala.math.sqrt(5);
+	  
+	  // Golden Ratio to the power of n
+	  var gRPowN = scala.math.pow(goldenRatio, n);
+	  
+	  return scala.math.floor((gRPowN / root5) + 0.5);
+	}
 	
 	/**
 	 * Outputs to stdout the results of a few simple tests against a fibonacci function.
