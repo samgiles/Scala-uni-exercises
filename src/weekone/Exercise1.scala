@@ -4,8 +4,36 @@ package weekone
  */
 object Exercise1 {
 	def main(args: Array[String]) : Unit = {
+	  testFibonacciFunction(fibonacciNumberA);
 	  
+	}
+	
+	/**
+	 * First implementation of the Fibonacci function.
+	 * 
+	 * Not suitable for n > 35 due to time complexity.
+	 * 
+	 * Takes the recurrence relation:
+	 * 
+	 * Fn = F(n-1) + F(n-2)
+	 * 
+	 * with seed values
+	 * 
+	 * F0 = 0
+	 * F1 = 1
+	 * 
+	 * @param n The nth number of the fibonacci sequence to find, not suited for n > 35
+	 */
+	def fibonacciNumberA(n: Double) : Double = {
+	  if (n == 0) {
+	    return 0;
+	  }
 	  
+	  if (n == 1) {
+	    return 1;
+	  }
+	  
+	  (fibonacciNumberA(n-1) + fibonacciNumberA(n-2)); // Last statement in a function is automatically returned in scala.
 	}
 	
 	/**
