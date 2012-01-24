@@ -5,7 +5,7 @@ package weekone
 object Exercise1 {
 	def main(args: Array[String]) : Unit = {
 	  testFibonacciFunction(fibonacciNumberA);
-	  
+	  testFibonacciFunction(fibonacciNumberB);
 	}
 	
 	/**
@@ -37,6 +37,30 @@ object Exercise1 {
 	}
 	
 	/**
+	 * Second implementation of the Fibonacci function.
+	 * 
+	 * Uses Binets formula for fibonacci numbers.
+	 * 
+	 * Where:
+	 * 
+	 * Un = ((1 + sqrt(5))^n - (1 + sqrt(5))^n) / (2^n * sqrt(5))
+	 * 
+	 * @param n the nth number of the fibonacci sequence to find.
+	 */
+	def fibonacciNumberB(n: Double) : Double = {
+	  val root5 = scala.math.sqrt(5);
+	  val oneAddRoot5 = 1 + root5;
+	  val oneMinusRoot5 = 1 - root5
+	  
+	  var top = (scala.math.pow(oneAddRoot5, n) - scala.math.pow(oneMinusRoot5, n)); // The top of the formula. i.e. the top portion of the division or Numerator.
+	  var bottom = (scala.math.pow(2, n) * root5); // The lower portion of the division. or Denominator
+	  
+	  scala.math.floor(top / bottom); // return the floored result of the formula to correct error.
+	}
+	
+	;
+	
+	/**
 	 * Outputs to stdout the results of a few simple tests against a fibonacci function.
 	 * @param testFunction The fibonacci function, takes a Double as its only argument, and returns a Double
 	 */
@@ -66,9 +90,15 @@ object Exercise1 {
 	  }
 	  
 	  if (testFunction(7) == 13) {
-	    println("Test 5 pass");
+	    println("Test 5 Pass");
 	  } else {
 	    println("Test 5 fail");
+	  }
+	  
+	  if (testFunction(26) == 121393) {
+	    println("Test 6 Pass"); 
+	  } else {
+	    println("Test 6 Fail");
 	  }
 	}
 }
