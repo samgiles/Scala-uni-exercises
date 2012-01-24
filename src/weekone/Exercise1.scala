@@ -10,6 +10,8 @@ object Exercise1 {
 	  testFibonacciFunction(fibonacciNumberB);
 	  println("Function C:");
 	  testFibonacciFunction(fibonacciNumberC);
+	  println("Function D:");
+	  testFibonacciFunction(fibonacciNumberD);
 	}
 	
 	/**
@@ -80,6 +82,30 @@ object Exercise1 {
 	  var gRPowN = scala.math.pow(goldenRatio, n);
 	  
 	  return scala.math.floor((gRPowN / root5) + 0.5);
+	}
+	
+	/**
+	 * Fourth implementation of the Fibonacci function.
+	 * 
+	 * Uses the simple recurrence relation as in function A.  However rather than using a recursive function call, we simply iterate until we reach the nth value.
+	 * 
+	 * @param n The nth number of the Fibonacci sequence.
+	 */
+	def fibonacciNumberD(n: Double) : Double = {
+	   
+	   var n1 = 1; 			// Seed values for n = 1
+	   var n0 = 0; 			// n = 0
+	   
+	   var i = 0; 			// iteration counter
+	   
+	   while (i < n) { 		// Iterate until we get the nth value.
+	     var nth = n0 + n1; // get the nth value by adding the two previous.
+	     n0 = n1; 			// assign the n0 value the old n1 value.
+	     n1 = nth; 			// assign the n1 value the new nth value.
+	     i = i + 1; 		// increment the counter
+	   }
+	   
+	   n1; // Remember Scala returns last statement.
 	}
 	
 	/**
