@@ -14,6 +14,55 @@ package weekone
  */
 object Exercise2 {
   def main(args: Array[String]) : Unit = {
+
+  }
+  
+  class Semester (modules: Array[Module]) {
     
   }
+  
+  class Module (moduleCode: ModuleCode, sessions: Array[Session]) {
+    
+  }
+  
+  class Session (startTime: Time, duration: Time, roomNumber: Room ) {
+    
+  }
+  
+  class Time (hour : Int, minutes: Int) {
+    
+    /**
+     * Get the duration of the time in minutes.
+     */
+    def duration(): Int = {
+      (hour * 60) + minutes;
+    }
+    
+    /**
+     * Get the hours.
+     */
+    def getHour(): Int = hour;
+    
+    /**
+     * Get the minutes.
+     */
+    def getMinute(): Int = minutes
+    
+    /**
+     * Override the toString method to return the Time in 24 hour format.
+     */
+    override def toString(): String = "%02d:%02d".format(getHour(), getMinute());
+  }
+  
+  class Room (buildingCode: String, roomNumber: Int) {
+    /**
+     * Override the toString method to return the Room number as a single value.
+     */
+    override def toString(): String = "%s%d".format(buildingCode, roomNumber);
+  }
+  
+  class ModuleCode (level: Int, courseCode: String, moduleNumber: Int, lecturer: String) {
+    
+  }
+  
 }
