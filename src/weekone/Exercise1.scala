@@ -1,4 +1,5 @@
 package weekone
+
 /**
  * Write Five Fibonacci sequence functions and output the display from each function in a table.
  */
@@ -12,12 +13,14 @@ object Exercise1 {
 	  testFibonacciFunction(fibonacciNumberC);
 	  println("Function D:");
 	  testFibonacciFunction(fibonacciNumberD);
+	  println("Function E:");
+	  testFibonacciFunction(fibonacciNumberE);
 	}
 	
 	/**
 	 * First implementation of the Fibonacci function.
 	 * 
-	 * Not suitable for n > 35 due to time complexity.
+	 * Not suitable for n > 35 due to time complexity (O(2^n)).
 	 * 
 	 * Takes the recurrence relation:
 	 * 
@@ -98,7 +101,8 @@ object Exercise1 {
 	   
 	   var i = 0; 			// iteration counter
 	   
-	   while (i < n) { 		// Iterate until we get the nth value.
+	   
+	   while (i < (n - 1)) { 		// Iterate until we get the nth value.
 	     var nth = n0 + n1; // get the nth value by adding the two previous.
 	     n0 = n1; 			// assign the n0 value the old n1 value.
 	     n1 = nth; 			// assign the n1 value the new nth value.
@@ -106,6 +110,41 @@ object Exercise1 {
 	   }
 	   
 	   n1; // Remember Scala returns last statement.
+	}
+	
+	
+	/**
+	 * A collection that contains fibonacci numbers that have already been computed.
+	 */
+	val fibs = new java.util.Vector[Double]();
+	
+	/**
+	 * Fifth implementation of the Fibonacci function.
+	 * 
+	 * Caches values that have already been computed in the fibs variable.  (See above).
+	 * 
+	 * This method saves on recalculating values we have already calculated.
+	 * 
+	 * @param n The nth number of the Fibonacci sequence.
+	 */
+	def fibonacciNumberE(n: Double) : Double = {
+	  
+	  if (fibs.size() == 0) {
+	    fibs.add(0); fibs.add(1); // set up the initial collection.
+	  }
+	  
+	  var i = fibs.size() - 1; // get the last element index.
+	  
+	  if (i > n){
+	    return fibs.get(n.toInt);
+	  }
+	  
+	  while (fibs.size() <= n) {
+	    fibs.add((fibs.elementAt(i) + fibs.elementAt(i - 1)));
+	    i = i + 1;
+	  }
+	  
+	  return fibs.get(n.toInt);
 	}
 	
 	/**
@@ -147,6 +186,19 @@ object Exercise1 {
 	    println("Test 6 Pass"); 
 	  } else {
 	    println("Test 6 Fail");
+	  }
+	  
+	  if (testFunction(18) == 2584) {
+	    println("Test 7 Pass");
+	  } else {
+	    println("Test 7 Fail");
+	  }
+	  
+	  // Function A will slow to a painful speed if we look for n values greater than 35 due to the O(2^n) implementation.
+	  if (testFunction(35) == 9227465) {
+	    println("Test 8 Pass");
+	  } else {
+	    println("Test 8 Fail");
 	  }
 	}
 }
