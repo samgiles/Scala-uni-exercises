@@ -5,16 +5,31 @@ package weekone
  */
 object Exercise1 {
 	def main(args: Array[String]) : Unit = {
-	  println("Function A:");
-	  testFibonacciFunction(fibonacciNumberA);
-	  println("Function B:");
-	  testFibonacciFunction(fibonacciNumberB);
-	  println("Function C:");
-	  testFibonacciFunction(fibonacciNumberC);
-	  println("Function D:");
-	  testFibonacciFunction(fibonacciNumberD);
-	  println("Function E:");
-	  testFibonacciFunction(fibonacciNumberE);
+	  
+	  // If arguments contains test then run the tests.
+	  if (args.size > 0 && args(0).indexOf("test") != -1) {
+		println("Function A:");
+	  	testFibonacciFunction(fibonacciNumberA);
+	  	println("Function B:");
+	  	testFibonacciFunction(fibonacciNumberB);
+	  	println("Function C:");
+	  	testFibonacciFunction(fibonacciNumberC);
+	  	println("Function D:");
+	  	testFibonacciFunction(fibonacciNumberD);
+	  	println("Function E:");
+	  	testFibonacciFunction(fibonacciNumberE);
+	  }
+	  
+	  val funcs: Array[(Double) => Double] = new Array[(Double) => Double](5);
+	  
+	  funcs(0) = fibonacciNumberA;
+	  funcs(1) = fibonacciNumberB;	  
+	  funcs(2) = fibonacciNumberC;	  
+	  funcs(3) = fibonacciNumberD;
+	  funcs(4) = fibonacciNumberE;
+	  
+	  printFibonacciFunctionTable(funcs);
+	  
 	}
 	
 	/**
@@ -145,6 +160,29 @@ object Exercise1 {
 	  }
 	  
 	  fibs.get(n.toInt);
+	}
+	
+	/**
+	 * Outputs a table of numbers in a sequence given an array of functions that take the nth value as its only argument and returns a double.
+	 * 
+	 * @param funcs An array of sequence functions.
+	 */
+	def printFibonacciFunctionTable(funcs: Array[(Double) => Double]) : Unit = {
+	  var i = 0;
+	  
+	  printf("n\t");
+	  funcs.foreach(func => { printf("F%d\t", i) ; i = i + 1;});
+	  
+	  println();
+	  
+	  i = 0; // Reset i;
+	  
+	  while (i < 11) {
+	    printf("%d\t", i);
+	    funcs.foreach(func => { printf("%.0f\t", func(i)); });
+	    println();
+	    i = i + 1;
+	  }
 	}
 	
 	/**
