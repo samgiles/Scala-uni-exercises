@@ -114,7 +114,7 @@ object Exercise1 {
 	
 	
 	/**
-	 * A collection that contains fibonacci numbers that have already been computed.
+	 * A collection that contains fibonacci numbers that have already been computed.       Used in the Fifth Implementation below.
 	 */
 	val fibs = new java.util.Vector[Double]();
 	
@@ -135,7 +135,7 @@ object Exercise1 {
 	  
 	  var i = fibs.size() - 1; // get the last element index.
 	  
-	  if (i > n){
+	  if (i > n){             // If the collection is greater than the n number we are looking for, simply return the value at the collection index.
 	    return fibs.get(n.toInt);
 	  }
 	  
@@ -144,12 +144,12 @@ object Exercise1 {
 	    i = i + 1;
 	  }
 	  
-	  return fibs.get(n.toInt);
+	  fibs.get(n.toInt);
 	}
 	
 	/**
 	 * Outputs to stdout the results of a few simple tests against a fibonacci function.
-	 * @param testFunction The fibonacci function, takes a Double as its only argument, and returns a Double
+	 * @param testFunction The fibonacci function, he function passed here should only take a Double as its only argument, and return a Double
 	 */
 	def testFibonacciFunction(testFunction : (Double) => Double) : Unit = {
 	  if (testFunction(1) == 1) {
