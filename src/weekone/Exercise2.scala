@@ -20,8 +20,8 @@ object Exercise2 {
     var modules = new Array[Module](1);
    
     var sessions = new Array[Session](2);
-    sessions(0) = new Session(new Time(9,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer");
-    sessions(1) = new Session(new Time(10,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer");
+    sessions(0) = new Session(new Time(9,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Lecture);
+    sessions(1) = new Session(new Time(10,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Workshop);
     
     modules(0) = new Module("Software Engineering Practices", new ModuleCode(5, "CS", 6), sessions);
     
@@ -54,10 +54,17 @@ object Exercise2 {
     }
   }
   
+  object SessionType extends Enumeration {
+    type SessionType = Value;
+    val Lecture, Tutorial, Workshop = Value;
+  }
+  
   /**
    * 
    */
-  class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String) {
+  class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String, sessionType: SessionType.Value) {
+    
+    def getSessionType() = sessionType;
     
     /**
      * Get the start time of the session.
@@ -72,7 +79,7 @@ object Exercise2 {
     /**
      * Returns the String representation of a session.
      */
-    override def toString(): String = "%s\t%s\t%s\t%s".format(getStartTime, getEndTime, roomNumber, lecturer); 
+    override def toString(): String = "%s\t%s\t%s\t%s\t%s".format(getStartTime, getEndTime, roomNumber, lecturer, getSessionType); 
   }
   
   /**
