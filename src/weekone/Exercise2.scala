@@ -25,11 +25,13 @@ object Exercise2 {
     
     modules(0) = new Module("Software Engineering Practices", new ModuleCode(5, "CS", 6), sessions);
     
-    modules.foreach(module => println(module));
+    var semester = new Semester(modules);
+    
+    print(semester);
   }
   
   /**
-   * 
+   * Represents a Semester.
    */
   class Semester (modules: Array[Module]) {
     override def toString(): String = {
@@ -40,7 +42,7 @@ object Exercise2 {
   }
   
   /**
-   * 
+   * Represents a module.
    */
   class Module (moduleName: String, moduleCode: ModuleCode, sessions: Array[Session]) {
     override def toString(): String = {
@@ -54,13 +56,16 @@ object Exercise2 {
     }
   }
   
+  /**
+   * Represents a type of the Module Session.
+   */
   object SessionType extends Enumeration {
     type SessionType = Value;
     val Lecture, Tutorial, Workshop = Value;
   }
   
   /**
-   * 
+   * Represents a Module session.
    */
   class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String, sessionType: SessionType.Value) {
     
@@ -83,7 +88,7 @@ object Exercise2 {
   }
   
   /**
-   * 
+   * Represents a Time, simply has a number of hours and a number of minutes.
    */
   class Time (hour : Int, minutes: Int) {
     
