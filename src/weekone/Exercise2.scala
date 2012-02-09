@@ -17,16 +17,31 @@ object Exercise2 {
   def main(args: Array[String]) : Unit = {
     
     
-    var modules = new Array[Module](1);
+    var modules = new Array[Module](4);
    
-    var sessions = new Array[Session](2);
-    sessions(0) = new Session(new Time(9,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Lecture);
-    sessions(1) = new Session(new Time(10,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Workshop);
+    val sepSessions = new Array[Session](2);
+    sepSessions(0) = new Session(new Time(9,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Lecture, Day.Tuesday);
+    sepSessions(1) = new Session(new Time(10,0), new Time(1,0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Workshop, Day.Tuesday);
     
-    modules(0) = new Module("Software Engineering Practices", new ModuleCode(5, "CS", 6), sessions);
+    val collabSessions = new Array[Session](1);
+    collabSessions(0) = new Session(new Time(13, 0), new Time(2, 0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Workshop, Day.Monday);
     
-    var semester = new Semester(modules);
     
+    val concurrentDistSessions = new Array[Session](2);
+    concurrentDistSessions(0) = new Session(new Time(17, 0), new Time(1, 0), new Room("MC", 214), "Dr A. Lecturer", SessionType.Lecture, Day.Monday);
+    concurrentDistSessions(1) = new Session(new Time(18, 0), new Time(1, 0), new Room("MI", 34), "Dr A. Lecturer", SessionType.Workshop, Day.Monday);
+    
+    val databaseSystems = new Array[Session](2);
+    databaseSystems(0) = new Session(new Time(18, 0), new Time(1, 0), new Room("MI", 34), "Dr A.Lecturer", SessionType.Workshop, Day.Wednesday);
+    databaseSystems(1) = new Session(new Time(19, 0), new Time(2, 0), new Room("MC", 1), "Dr A. Lecturer", SessionType.Lecture, Day.Wednesday);
+    
+    
+    modules(0) = new Module("Software Engineering Practices", new ModuleCode(5, "CS", 6), sepSessions);
+    modules(1) = new Module("Collaborative Development", new ModuleCode(5, "CS", 12), collabSessions);
+    modules(2) = new Module("Database Systems", new ModuleCode(5, "CI", 17), databaseSystems);
+    modules(3) = new Module("Distributed and Concurrent Systems", new ModuleCode(5, "CS", 4), concurrentDistSessions);
+    
+    val semester = new Semester(modules);
     print(semester);
   }
   
@@ -52,7 +67,7 @@ object Exercise2 {
         string;
       }: String;
       
-      return "%s\t%s\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n%s".format(moduleName, moduleCode, sessionString);
+      return "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n %s\t%s\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n%s".format(moduleName, moduleCode, sessionString);
     }
   }
   
@@ -64,10 +79,15 @@ object Exercise2 {
     val Lecture, Tutorial, Workshop = Value;
   }
   
+  object Day extends Enumeration {
+    type Day = Value;
+    val Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday = Value;
+  }
+  
   /**
    * Represents a Module session.
    */
-  class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String, sessionType: SessionType.Value) {
+  class Session (startTime: Time, duration: Time, roomNumber: Room, lecturer: String, sessionType: SessionType.Value, day : Day.Value) {
     
     def getSessionType() = sessionType;
     
@@ -84,7 +104,7 @@ object Exercise2 {
     /**
      * Returns the String representation of a session.
      */
-    override def toString(): String = "%s\t%s\t%s\t%s\t%s".format(getStartTime, getEndTime, roomNumber, lecturer, getSessionType); 
+    override def toString(): String = "%s     \t%s\t%s\t%s\t%s\t%s".format(day, getStartTime, getEndTime, roomNumber, lecturer, getSessionType); 
   }
   
   /**
@@ -95,12 +115,12 @@ object Exercise2 {
     /**
      * Get the duration of the time in minutes.
      */
-    def duration(): Int = (hour * 60) + minutes;
+    val duration: Int = (hour * 60) + minutes;
     
     /**
      * Get the hours.
      */
-    def getHour(): Int = hour;
+    val getHour: Int = hour;
     
     /**
      * Adds a number of Minutes to the time.
@@ -128,7 +148,7 @@ object Exercise2 {
     /**
      * Get the minutes.
      */
-    def getMinute(): Int = minutes
+    val getMinute: Int = minutes
     
     /**
      * Adds two time values together.
@@ -140,7 +160,7 @@ object Exercise2 {
     /**
      * Override the toString method to return the Time in 24 hour format.
      */
-    override def toString(): String = "%02d:%02d".format(getHour(), getMinute());
+    override def toString(): String = "%02d:%02d".format(getHour, getMinute);
   }
   
   class Room (buildingCode: String, roomNumber: Int) {
