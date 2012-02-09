@@ -136,40 +136,40 @@ object Exercise1 {
 	 */
 	val fibonacciNumberE : (Double) => Double = {
 	  
-			/**
-			 * A collection that contains fibonacci numbers that have already been computed.       Used in the Fifth Implementation below.
-			 */
-			val fibs = new java.util.Vector[Double]();
+	  /**
+	   * A collection that contains fibonacci numbers that have already been computed.       Used in the Fifth Implementation below.
+	   */
+	   val fibs = new java.util.Vector[Double]();
 	
-			/**
-			 * Fifth implementation of the Fibonacci function.
-			 * 
-			 * Caches values that have already been computed in the fibs variable.  (See above).
-			 * 
-			 * This method saves on recalculating values we have already calculated.
-			 * 
-			 * @param n The nth number of the Fibonacci sequence.
-			 */
-			def fibonacciNumber(n: Double) : Double = {
-					if (fibs.size() == 0) {
-						fibs.add(0); fibs.add(1); // set up the initial collection.
-					}
-	  
-					var i = fibs.size() - 1; // get the last element index.
-	  
-					if (i > n){             // If the collection is greater than the n number we are looking for, simply return the value at the collection index.
-						return fibs.get(n.toInt);
-					}
-	  
-					while (fibs.size() <= n) {
-						fibs.add((fibs.elementAt(i) + fibs.elementAt(i - 1)));
-						i = i + 1;
-					}
-	  
-					fibs.get(n.toInt);
+	   /**
+		* Fifth implementation of the Fibonacci function.
+		* 
+		* Caches values that have already been computed in the fibs variable.  (See above).
+		* 
+		* This method saves on recalculating values we have already calculated.
+		* 
+		* @param n The nth number of the Fibonacci sequence.
+		*/
+		def fibonacciNumber(n: Double) : Double = {
+			if (fibs.size() == 0) {
+				fibs.add(0); fibs.add(1); // set up the initial collection.
 			}
-			
-			fibonacciNumber;
+	  
+			var i = fibs.size() - 1; // get the last element index.
+	  
+			if (i > n){             // If the collection is greater than the n number we are looking for, simply return the value at the collection index.
+				return fibs.get(n.toInt);
+			}
+	  
+			while (fibs.size() <= n) {
+				fibs.add((fibs.elementAt(i) + fibs.elementAt(i - 1)));
+				i = i + 1;
+			}
+	  
+			fibs.get(n.toInt);	
+		}
+		
+		fibonacciNumber;
 	}
 	
 	/**
