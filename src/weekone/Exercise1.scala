@@ -22,10 +22,10 @@ object Exercise1 {
 	  
 	  val funcs: Array[(Double) => Double] = new Array[(Double) => Double](5);
 	  
-	  funcs(0) = fibonacciNumberE;
-	  funcs(1) = fibonacciNumberE;	  
-	  funcs(2) = fibonacciNumberE;	  
-	  funcs(3) = fibonacciNumberE;
+	  funcs(0) = fibonacciNumberA;
+	  funcs(1) = fibonacciNumberB;	  
+	  funcs(2) = fibonacciNumberC;	  
+	  funcs(3) = fibonacciNumberD;
 	  funcs(4) = fibonacciNumberE;
 	  
 	  printFibonacciFunctionTable(funcs);
