@@ -20,13 +20,12 @@ object Exercise1 {
 	  	testFibonacciFunction(fibonacciNumberE);
 	  }
 	  
-	  val funcs: Array[(Double) => Double] = new Array[(Double) => Double](5);
-	  
-	  funcs(0) = fibonacciNumberA;
-	  funcs(1) = fibonacciNumberB;	  
-	  funcs(2) = fibonacciNumberC;	  
-	  funcs(3) = fibonacciNumberD;
-	  funcs(4) = fibonacciNumberE;
+	  val funcs: Array[(Double) => Double] = Array(
+	      fibonacciNumberA, 
+	      fibonacciNumberB, 
+	      fibonacciNumberC, 
+	      fibonacciNumberD, 
+	      fibonacciNumberE);
 	  
 	  printFibonacciFunctionTable(funcs);
 	}
