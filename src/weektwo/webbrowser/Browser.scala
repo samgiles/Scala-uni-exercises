@@ -2,8 +2,34 @@ package weektwo.webbrowser
 import scala.swing._
 import javax.swing.event.HyperlinkListener
 import javax.swing.event.HyperlinkEvent
+import java.net.URL
 
 object Browser extends SimpleSwingApplication {
+  
+   val htmlViewer = new EditorPane("text/html", "<a href=\"http://sam-giles.co.uk/?c=Index\">Hello</a>") {
+      editable = false
+
+      def setPage(url: String) {
+        peer.setPage(url);
+      }
+      
+      def setPage(url: URL) {
+        peer.setPage(url);
+      }
+      
+      def appendHTML(html: String) {
+        text = text + html;
+      }
+      
+      peer.addHyperlinkListener(new HyperlinkListener() {
+        def hyperlinkUpdate(ev: HyperlinkEvent) {
+          if ((ev.getEventType == HyperlinkEvent.EventType.ACTIVATED)) {      
+            notifyListeners(new BrowserMessageData(Message.SetPage, ev.getURL));
+          }
+        }
+      });
+    }
+  
   def top = new MainFrame {
 
     val navigationBar = new FlowPanel {
@@ -11,7 +37,7 @@ object Browser extends SimpleSwingApplication {
         action = Action("Back") {
         }	
       }
-			
+      
       val forwardButton = new Button {
         action = Action("Forward") {
         }				
@@ -31,6 +57,7 @@ object Browser extends SimpleSwingApplication {
         action = Action("Go") {
         }	
       }
+      
 
       contents += backButton
       contents += forwardButton
@@ -38,55 +65,52 @@ object Browser extends SimpleSwingApplication {
       contents += addressBar
       contents += goButton	
     }
-
-    val htmlViewer = new EditorPane("text/html", "<a href=\"http://www.facebook.com\">Hello</a>") {
-      editable = false;
-      
-      def setHTML(html: String) {
-        text = html;
-      }
-      
-      peer.addHyperlinkListener(new HyperlinkListener() {
-        def hyperlinkUpdate(ev: HyperlinkEvent) {
-          if (ev.getEventType() == HyperlinkEvent.EventType.ACTIVATED) 
-            
-            try {        
-             notifyListeners(new BrowserMessageData(Message.LoadPage, ev));
-            } catch  {
-            	case ex: java.io.IOException => {}
-            }
-        }
-      });
+    
+    
+    val scrollArea = new ScrollPane (htmlViewer) {
     }
+    
+    
+    def changeTitle (newTitle: String) : Unit = {
+      title = newTitle;
+    }
+    
     visible = true;
     title = "Web Browser";
     preferredSize = new Dimension(500, 500);
     contents = new BorderPanel {
       add(navigationBar, BorderPanel.Position.North)
-      add(htmlViewer, BorderPanel.Position.Center)
+      add(scrollArea, BorderPanel.Position.Center)
     }
   }
   
+  def onSetPage(data: BrowserMessageData): Unit = {
+    data.getData match {
+      case a : String => { htmlViewer.setPage(a)}
+      case u : URL => { htmlViewer.setPage(u)}
+    }
+  }
+ 
+  private val messagelisteners: scala.collection.mutable.ListBuffer[BrowserMessage] = new scala.collection.mutable.ListBuffer[BrowserMessage]()
   
-  
-  private val listeners: scala.collection.mutable.ListBuffer[BrowserMessage] = new scala.collection.mutable.ListBuffer[BrowserMessage]()
   
   def listen(message: BrowserMessage) {
-    listeners += message;
+    messagelisteners += message;
   }
   
   def notifyListeners(data: BrowserMessageData) {
-	 listeners.foreach(listener => {
+	 messagelisteners.foreach(listener => {
 	   if (listener.getMessage == data.getMessage) {
 		   listener.notify(data);
 	   }
 	 });
   }
   
-  val htmlLoader = HtmlLoader;
+  val htmlLoader = HtmlLoader;  
+    listen(new BrowserMessage(Message.SetPage, onSetPage));
 }
 
 object Message extends Enumeration {
     type Message = Value;
-    val LoadPage = Value;
+    val SetPage = Value;
 }

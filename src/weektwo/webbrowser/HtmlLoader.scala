@@ -47,7 +47,7 @@ object HtmlLoader {
 				   new InputStreamReader(connection.getInputStream()))
 		   var line = reader.readLine
 		   while (line != null) {
-			   Browser.notifyListeners(new BrowserMessageData(Message.AppendToPage, line));
+			  // Browser.notifyListeners(new BrowserMessageData(Message.AppendToPage, line));
 			   line = reader.readLine;
 		   }
 		   reader.close();
@@ -65,5 +65,5 @@ object HtmlLoader {
 	   returnString;
 	}
 	
-	Browser.listen(new BrowserMessage(Message.LoadPage, loadPage));
+//	Browser.listen(new BrowserMessage(Message.LoadPage, loadPage));
 }
