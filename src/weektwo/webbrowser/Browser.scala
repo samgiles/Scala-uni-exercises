@@ -55,9 +55,21 @@ object Browser extends SimpleSwingApplication {
 
       val goButton = new Button {
         action = Action("Go") {
-        }	
+        }
       }
       
+      def onSetPage(data : BrowserMessageData): Unit = {
+        data.getData match {
+          case a : String => { 
+            addressBar.text = a;
+          }
+          case b : URL => {
+            addressBar.text = b.toString;
+          }
+        }
+      }
+      
+      Browser.listen(new BrowserMessage(Message.SetPage, onSetPage));
 
       contents += backButton
       contents += forwardButton
