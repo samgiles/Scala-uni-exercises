@@ -3,18 +3,26 @@ import scala.swing._
 import javax.swing.event.HyperlinkListener
 import javax.swing.event.HyperlinkEvent
 import java.net.URL
+import scala.collection.mutable.Stack
 
 object Browser extends SimpleSwingApplication {
   
-   val htmlViewer = new EditorPane("text/html", "<a href=\"http://sam-giles.co.uk/?c=Index\">Hello</a>") {
+  
+  
+   val htmlViewer = new EditorPane("text/html", "<a href=\"http://google.co.uk\">Google</a>") {
       editable = false
 
+      var currentUrl: URL = new URL("http://google.co.uk");
+      
       def setPage(url: String) {
-        peer.setPage(url);
+        val uri = new URL(url);
+        peer.setPage(uri);
+        currentUrl = uri;
       }
       
       def setPage(url: URL) {
         peer.setPage(url);
+        currentUrl = url;
       }
       
       def appendHTML(html: String) {
@@ -23,7 +31,8 @@ object Browser extends SimpleSwingApplication {
       
       peer.addHyperlinkListener(new HyperlinkListener() {
         def hyperlinkUpdate(ev: HyperlinkEvent) {
-          if ((ev.getEventType == HyperlinkEvent.EventType.ACTIVATED)) {      
+          if ((ev.getEventType == HyperlinkEvent.EventType.ACTIVATED)) {   
+            notifyListeners(new BrowserMessageData(Message.AddToHistory, currentUrl));
             notifyListeners(new BrowserMessageData(Message.SetPage, ev.getURL));
           }
         }
@@ -33,28 +42,33 @@ object Browser extends SimpleSwingApplication {
   def top = new MainFrame {
 
     val navigationBar = new FlowPanel {
-      val backButton = new Button {		
+      val backButton = new Button {	
+        peer.setEnabled(false)
         action = Action("Back") {
+          var url = History.getLastURL;
+          Browser.notifyListeners(new BrowserMessageData(Message.SetPage, url));
         }	
-      }
-      
-      val forwardButton = new Button {
-        action = Action("Forward") {
-        }				
       }
 			
       val homeButton = new Button {
         action = Action("Home") {
+          Browser.notifyListeners(new BrowserMessageData(Message.SetPage, "http://google.co.uk"));
         }
       }
 			
       val addressBar = new TextField {
-        columns = 50
+        columns = 100
         enabled = true			
       }
 
       val goButton = new Button {
         action = Action("Go") {
+          
+          if (addressBar.text.indexOf("http") != 0) {
+            addressBar.text = "http://" + addressBar.text;
+          }
+          
+          Browser.notifyListeners(new BrowserMessageData(Message.SetPage, addressBar.text));
         }
       }
       
@@ -72,7 +86,6 @@ object Browser extends SimpleSwingApplication {
       Browser.listen(new BrowserMessage(Message.SetPage, onSetPage));
 
       contents += backButton
-      contents += forwardButton
       contents += homeButton
       contents += addressBar
       contents += goButton	
@@ -118,11 +131,37 @@ object Browser extends SimpleSwingApplication {
 	 });
   }
   
-  val htmlLoader = HtmlLoader;  
-    listen(new BrowserMessage(Message.SetPage, onSetPage));
+  listen(new BrowserMessage(Message.SetPage, onSetPage));
 }
 
 object Message extends Enumeration {
     type Message = Value;
-    val SetPage = Value;
+    val SetPage, AddToHistory = Value;
+}
+
+object History {
+  val prev: Stack[URL] = new Stack[URL]();
+  
+  def getLastURL() : URL = {
+    if (prev.size > 0) {
+    	var url = prev.pop;
+    	return url;
+    } else {
+      return new URL("http://google.co.uk");
+    }
+  }
+  
+  def onHistoryUpdate(data: BrowserMessageData): Unit = {
+    data.getData match {
+      case a : String => {
+        prev.push(new URL(a));
+      }
+      case b : URL => {
+        prev.push(b);
+      }
+      case _ => {}
+    }
+  }
+  
+  Browser.listen(new BrowserMessage(Message.AddToHistory, onHistoryUpdate));
 }
