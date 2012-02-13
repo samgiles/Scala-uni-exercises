@@ -4,6 +4,7 @@ import javax.swing.event.HyperlinkListener
 import javax.swing.event.HyperlinkEvent
 import java.net.URL
 import scala.collection.mutable.Stack
+import scala.collection.mutable.LinkedList
 
 object Browser extends SimpleSwingApplication {
   
@@ -94,7 +95,7 @@ object Browser extends SimpleSwingApplication {
    /**
     * Specifies the UI for the SimpleSwingApplication.
     */
-  def top = new MainFrame {
+   def top = new MainFrame {
 
     /**
      * Definition of the navigation Bar.
@@ -224,4 +225,14 @@ object History {
   }
   
   Browser.listen(new BrowserMessage(Message.AddToHistory, onHistoryUpdate));
+}
+
+object Bookmarks {
+  val list: LinkedList[URL] = new LinkedList[URL]();
+  
+  def addBookMark(url: URL) = {
+    list :+ url;
+  }
+  
+  
 }
