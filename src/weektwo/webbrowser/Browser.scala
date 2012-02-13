@@ -32,7 +32,7 @@ object Browser extends SimpleSwingApplication {
 	 });
   }
   
-  
+  History.init;
    /**
     * The viewer for the HTML.  This renders the HTML and responds to Browser Events, (Currently limited to hyperlink Active click events).
     */
@@ -201,14 +201,16 @@ object Message extends Enumeration {
  * Browser History.
  */
 object History {
-  val prev: Stack[URL] = new Stack[URL]();
+  val prev: Stack[URL] = new scala.collection.mutable.Stack[URL]();
   
   def getLastURL() : URL = {
-    if (prev.size > 0) {
+    try {
     	var url = prev.pop;
     	return url;
-    } else {
-      return new URL("http://google.co.uk");
+    } catch { 
+      case _ => {
+        return new URL("");
+      }
     }
   }
   
@@ -224,7 +226,10 @@ object History {
     }
   }
   
-  Browser.listen(new BrowserMessage(Message.AddToHistory, onHistoryUpdate));
+  def init(): Unit = {
+      Browser.listen(new BrowserMessage(Message.AddToHistory, onHistoryUpdate));
+  }
+
 }
 
 object Bookmarks {
@@ -233,6 +238,4 @@ object Bookmarks {
   def addBookMark(url: URL) = {
     list :+ url;
   }
-  
-  
 }
