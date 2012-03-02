@@ -11,7 +11,7 @@ object Main {
   def main(args: Array[String]): Unit = {
     val httpServer: HTTPServer = new HTTPServer(9999);
   
-  	httpServer.start;
+  	httpServer.run;
   }
  
 }
