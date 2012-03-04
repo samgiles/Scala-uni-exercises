@@ -5,17 +5,15 @@ package webserver
 
 
 import scala.util.matching.Regex
+import scala.collection.mutable.HashMap
 
 /**
  * @author sam
  *
  */
-class HTTPRequest(requestString: String) extends HTTPObject {
- 
-    private val lines: Array[String] = requestString.split("\n\r");
+class HTTPRequest(requestString: String) extends HTTPObject(requestString) {
     
     // First line is always the HTTP request line as defined in the RFC: [Request-Line   = Method SP Request-URI SP HTTP-Version CRLF]
-    
   	if (lines.size < 1) {
   	  // Something went wrong, maybe an empty request? TODO: Log.
   	}
@@ -28,6 +26,12 @@ class HTTPRequest(requestString: String) extends HTTPObject {
   	val uri: String = requestLineComponents(1);
   	
   	val httpVersion: String = requestLineComponents(2);
+  	
+  	lines.foreach(line => {
+  	  
+  	  
+  	  
+  	});
   	
   	
 }
