@@ -1,4 +1,4 @@
-package webserver
+/*package webserver
 
 abstract class HTTPObject(requestString: String) {
   
@@ -15,29 +15,7 @@ abstract class HTTPObject(requestString: String) {
   var warning: String = null;
   
   
-  def fieldConcat(fields: Array[String]): String = {
-    // re-Concatenate fields if they were split when splitting by ":".
-    var string = "";
-    var t = 0;
-    if (fields.length > 2) {
-      var length = fields.length;
-      fields.foreach(field => {
-        if (t != 0) {
-          string = string + field;
-          if (t != length - 1) {
-            string = string + ":";
-          }
-        }
-        t = t + 1;
-      });
-    } else {
-      if (fields.length == 2) {
-        return fields(1);
-      }
-    }
-    
-    return string;
-  }
+
   
   var i = 0;
   lines.foreach(line => {
@@ -69,6 +47,9 @@ abstract class HTTPObject(requestString: String) {
         case "Warning" => {
           warning = fieldConcat(field);
         }
+        case "Cache-Controler" => {
+          
+        }
         case _ => {
         }
       }
@@ -79,4 +60,4 @@ abstract class HTTPObject(requestString: String) {
   var breakPoint = 0;
   
   
-}
+}*/

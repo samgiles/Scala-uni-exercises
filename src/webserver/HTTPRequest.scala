@@ -1,7 +1,7 @@
 /**
  * 
  */
-package webserver
+/*package webserver
 
 
 import scala.util.matching.Regex
@@ -27,12 +27,92 @@ class HTTPRequest(requestString: String) extends HTTPObject(requestString) {
   	
   	val httpVersion: String = requestLineComponents(2);
   	
-  	lines.foreach(line => {
-  	  
-  	  
-  	  
-  	});
+  	var host: String = null;
+  	var accept: String = null;
+  	var acceptCharset:String = null;
+  	var acceptEncoding: String = null;
+  	var acceptLanguage:String = null;
+  	var authorization:String = null;
+  	var expect:String = null;
+  	var from:String = null;
+  	var ifMatch:String = null;
+  	var ifModifiedSince:String = null;
+  	var ifNoneMatch:String = null;
+  	var ifRange:String = null;
+  	var ifUnmodifiedSince:String = null;
+  	var maxForwards:String = null;
+  	var proxyAuthorization:String = null;
+  	var range:String = null;
+  	var referer:String = null;
+  	var te:String = null;
+  	var userAgent:String = null;
   	
+  	
+  	
+  	lines.foreach(line => {
+  	  var lineComponents = line.split(""":""");
+  	  lineComponents(0) match {
+  	    case "Host" => {
+  	      host = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Accept" => {
+  	      accept = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Accept-Charset" => {
+  	      acceptCharset = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Accept-Encoding" => {
+  	      acceptEncoding = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Accept-Language" => {
+  	      acceptLanguage = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Authorization" => {
+  	      authorization = HTTPFieldMethods.fieldConcat(lineComponents);
+  	    }
+  	    case "Expect" => {
+  	      expect = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "From" => {
+  	      from = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "If-Match" => {
+  	      ifMatch = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "If-Modified-Since" => {
+  	      ifModifiedSince = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "If-None-Match" => {
+  	      ifNoneMatch = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "If-Range" => {
+  	      ifRange = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "If-Unmodified-Since" => {
+  	      ifUnmodifiedSince = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "Max-Forwards" => {
+  	      maxForwards = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "Proxy-Authorization" => {
+  	      proxyAuthorization = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "Range" => {
+  	      range = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "Referer" => {
+  	      referer = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "TE" => {
+  	      te = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case "User-Agent" => {
+  	      userAgent = HTTPFieldMethods.fieldConcat(lineComponents)
+  	    }
+  	    case _ => {
+  	    }
+  	   }  
+  	});
   	
 }
 
@@ -86,4 +166,4 @@ object HTTPRequestMethod extends Enumeration {
       }
     }
   }
-}
+}*/

@@ -21,6 +21,10 @@ class ControlHandler(parent: Actor) extends Actor {
           running = false;
         }
         
+        case "help" => {
+          println("Not Yet Implemented!");
+        }
+        
         case _ => {
           System.out.println("Unknown command: " + string + ".  Use 'help' command for list of commands");
         }

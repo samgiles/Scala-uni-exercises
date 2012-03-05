@@ -2,6 +2,10 @@ package webserver
 import java.net.ServerSocket
 import scala.actors.Actor
 import scala.actors._
+import java.net.Socket
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import webserver.http.Request
 
 case object Terminate;
 
@@ -32,9 +36,9 @@ class HTTPServer(port: Int) extends Actor {
     while(running) {
       println("Waiting for connection...");
       
-      val connection = sock.accept();
-      
-      println("Connection from: " + connection.getRemoteSocketAddress());
+      val connection: Socket = sock.accept();
+      var handler = new ConnectionHandler(connection);
+      handler.start
     }
   }
   
