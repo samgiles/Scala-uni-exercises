@@ -2,7 +2,7 @@ package combinatorparsing
 
 import scala.util.parsing.combinator._
 
-object Main {
+object Parser1 {
   def main(args: Array[String]): Unit = {
     val parser = new SimpleArithmeticParser();
     val expression = "2 * (3 + 7)"
