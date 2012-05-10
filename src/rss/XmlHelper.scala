@@ -2,13 +2,13 @@ package rss
 import scala.xml._
 import scala.io.Source
 import java.util._
-import java.net.{URL, URLConnection}
+import java.net._
 import scala.collection.mutable.{Queue, HashMap}
 
 object XmlHelper {
 	
 	def importFeed(url_s: String): Node = {
-	  val url = new URL(url_s);
+	  val url: URL = new URL(url_s);	  
 	  val conn = url.openConnection;
 	  return XML.load(conn.getInputStream);
 	}
